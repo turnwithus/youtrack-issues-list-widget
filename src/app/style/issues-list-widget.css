@@ -142,6 +142,7 @@
 
 .issues-list-widget__field-value {
   display: table-cell;
+  color: var(--ring-secondary-color);
 }
 
 .issues-list-widget__field-avatar {

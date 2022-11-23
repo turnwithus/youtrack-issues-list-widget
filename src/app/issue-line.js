@@ -34,6 +34,20 @@ class IssueLine extends React.Component {
     );
   }
 
+  static getUserFields(issue) {
+    return (issue.fields || []).filter(
+      field => IssueLine.toArray(field.value || []).length > 0
+    ).filter(
+      field => {
+        const valueType = field.projectCustomField &&
+          field.projectCustomField.field &&
+          field.projectCustomField.field.fieldType &&
+          field.projectCustomField.field.fieldType.valueType;
+        return valueType === 'user';
+      }
+    );
+  }
+
   static getName(field) {
     return field.localizedName || field.name;
   }
@@ -140,7 +154,8 @@ class IssueLine extends React.Component {
       issue,
       expanded,
       coloredSquare: IssueLine.getColoredSquareModel(issue),
-      valuableFields: IssueLine.getValuableIssueFields(issue)
+      valuableFields: IssueLine.getValuableIssueFields(issue),
+      userFields: IssueLine.getUserFields(issue)
     };
   }
 
@@ -150,7 +165,8 @@ class IssueLine extends React.Component {
       issue,
       expanded,
       coloredSquare: IssueLine.getColoredSquareModel(issue),
-      valuableFields: IssueLine.getValuableIssueFields(issue)
+      valuableFields: IssueLine.getValuableIssueFields(issue),
+      userFields: IssueLine.getUserFields(issue)
     };
   }
 
@@ -207,11 +223,34 @@ class IssueLine extends React.Component {
     );
   }
 
+  renderAssigneeField(issueFields) {
+    return (
+      <span className="assignee">
+        {
+          issueFields.map(issueField => (
+            <span
+              key={`field-line-${issueField.id}`}
+              className="xxxxxxissues-list-widget__field-row"
+            >
+              <span className="">
+                <span className="">
+                {/*  {IssueLine.getName(issueField.projectCustomField.field)}*/}
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;  {this.renderFieldValue(issueField)}
+              </span>
+            </span>
+          ))
+        }
+      </span>
+    );
+  }
+
   render() {
     const {
       issue,
       coloredSquare,
       valuableFields,
+      userFields,
       expanded,
       highlighted
     } = this.state;
@@ -277,6 +316,7 @@ class IssueLine extends React.Component {
             target="_blank"
           >
             {issue.summary}
+            {this.renderAssigneeField(userFields)}
           </Link>
         </div>
         <div className="issues-list-widget__issue-toggler">
