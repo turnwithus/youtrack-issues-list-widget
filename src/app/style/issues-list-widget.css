@@ -88,6 +88,7 @@
 
 .issues-list-widget__issue-id {
   white-space: nowrap;
+  color: var(--ring-text-color);
 }
 
 .issues-list-widget__issue-id.issues-list-widget__issue-id_resolved {
