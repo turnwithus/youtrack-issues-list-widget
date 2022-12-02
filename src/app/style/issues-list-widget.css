@@ -93,7 +93,7 @@
   white-space: nowrap;
   color: var(--ring-text-color);
   display: inline-block;
-  min-width: 4rem;
+  min-width: 3.6rem;
 }
 
 .issues-list-widget__issue-id.issues-list-widget__issue-id_resolved {
